@@ -113,7 +113,7 @@ public class UserService {
             .orElseThrow(() -> new RuntimeException("User not found with id: " + userId));
         
         // Fetch existing skill or create a new one if it doesn't exist
-        Skill skill = skillRepository.findById(skillName)
+        Skill skill = skillRepository.findByName(skillName)
             .orElseGet(() -> skillRepository.save(new Skill(skillName)));
 
         user.getSkills().add(skill);
@@ -136,7 +136,7 @@ public class UserService {
             .orElseThrow(() -> new RuntimeException("User not found with id: " + userId));
         
         // Find the skill by name and remove it from the users skills
-        skillRepository.findById(skillName)
+        skillRepository.findByName(skillName)
             .ifPresent(skill -> user.getSkills().remove(skill));
 
         // Save the updated user back to the repository
