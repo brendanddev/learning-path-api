@@ -27,6 +27,27 @@ public class Skill {
     @ManyToMany(mappedBy = "skills")
     private Set<User> users;
 
+    /**
+     * Default constructor required by JPA
+     */
+    public Skill() {}
 
-    
+    // Getters and setters
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Set<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(Set<User> users) {
+        this.users = users;
+    }
+
 }
