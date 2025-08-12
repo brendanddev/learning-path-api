@@ -1,5 +1,6 @@
 package com.brendanddev.learning_path_api.controller;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +12,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
 import com.brendanddev.learning_path_api.model.User;
 import com.brendanddev.learning_path_api.service.UserService;
 
@@ -59,15 +62,22 @@ public class UserController {
                    .orElse(ResponseEntity.notFound().build());
     }
 
+
     /**
      * Creates a new user in the database
      * 
-     * @param user The User entity to be created
-     * @return ResponseEntity containing the created User entity with HTTP 201 Created status
+     * @param user The User entity to create
+     * @return ResponseEntity containing the created User entity with HTTP 201 Created status,
+     *         and a Location header pointing to the newly created resource
      */
     @PostMapping
-    public User createUser(@RequestBody User user) {
-        return userService.createUser(user);
+    public ResponseEntity<User> createUser(@RequestBody User user) {
+        User createdUser = userService.createUser(user);
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+            .path("/{id}")
+            .buildAndExpand(createdUser.getId())
+            .toUri();
+        return ResponseEntity.created(location).body(createdUser);
     }
 
     /**
@@ -89,15 +99,19 @@ public class UserController {
         }
     }
 
-    /**
-     * Deletes a user from the database by their id
-     * 
-     * @param id The id of the user to delete
-     * @return ResponseEntity with HTTP 204 No Content status if the deletion was successful,
-     *         or HTTP 404 Not Found if the user with the given id does not exist
-     */
+   /**
+    * Deletes a user by their id
+    *
+    * @param id The id of the user to delete
+    * @return ResponseEntity with HTTP 204 No Content status if the user was deleted,
+    *         or HTTP 404 Not Found if the user with the given id does not exist
+    */
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
+        Optional<User> existingUser = userService.getUserById(id);
+        if (existingUser.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
         userService.deleteUser(id);
         return ResponseEntity.noContent().build();
     }
