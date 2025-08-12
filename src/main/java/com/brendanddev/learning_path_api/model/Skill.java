@@ -32,6 +32,15 @@ public class Skill {
      */
     public Skill() {}
 
+    /**
+     * Overloaded constructor to create a Skill with a name.
+     * 
+     * @param name The name of the skill
+     */
+    public Skill(String name) {
+        this.name = name;
+    }
+
     // Getters and setters
 
     public String getName() {
