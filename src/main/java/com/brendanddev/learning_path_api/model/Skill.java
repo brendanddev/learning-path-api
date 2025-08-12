@@ -1,6 +1,9 @@
 package com.brendanddev.learning_path_api.model;
 
 import java.util.Set;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -35,6 +38,7 @@ public class Skill {
      * managed by the 'skills' field in the User entity.
      */
     @ManyToMany(mappedBy = "skills")
+    @JsonIgnore
     private Set<User> users;
 
     /**
