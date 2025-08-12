@@ -58,6 +58,7 @@ public class SkillService {
 
     /**
      * Creates and saves a new skill to the database.
+     * If a skill with the same name already exists, it returns that skill instead of creating a new one.
      * 
      * The Transactional annotation indicates that this method runs within a database transaction.
      * A Transaction is a unit of works that either fully succeeds or fully fails, ensuring data integrity.
@@ -67,7 +68,8 @@ public class SkillService {
      */
     @Transactional
     public Skill createSkill(Skill skill) {
-        return skillRepository.save(skill);
+        return skillRepository.findByName(skill.getName())
+            .orElseGet(() -> skillRepository.save(skill));
     }
 
     /**
