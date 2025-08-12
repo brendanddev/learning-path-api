@@ -102,8 +102,43 @@ public class UserController {
         return ResponseEntity.noContent().build();
     }
 
+    /**
+     * Adds a skill to an existing user 
+     * 
+     * @param userId The id of the user to update
+     * @param skillName The name of the skill to add
+     * @return ResponseEntity containing the updated User entity with HTTP 200 OK status,
+     *         or HTTP 404 Not Found if the user with the given id does not exist
+     * @throws RuntimeException if the user with the given id does not exist
+     */
+    @PostMapping("/{userId}/skills")
+    public ResponseEntity<User> addSkillToUser(@PathVariable Long userId, @RequestBody String skillName) {
+        try {
+            User updatedUser = userService.addSkillToUser(userId, skillName);
+            return ResponseEntity.ok(updatedUser);
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
 
-
+    /**
+     * Removes a skill from an existing user
+     * 
+     * @param userId The id of the user to remove the skill from
+     * @param skillName The name of the skill to remove
+     * @return ResponseEntity containing the updated User entity with HTTP 200 OK status,
+     *         or HTTP 404 Not Found if the user with the given id does not exist
+     * @throws RuntimeException if the user with the specified id does not exist
+     */
+    @DeleteMapping("/{userId}/skills/{skillName}")
+    public ResponseEntity<User> removeSkillFromUser(@PathVariable Long userId, @PathVariable String skillName) {
+        try {
+            User updatedUser = userService.removeSkillFromUser(userId, skillName);
+            return ResponseEntity.ok(updatedUser);
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
 
 
 
