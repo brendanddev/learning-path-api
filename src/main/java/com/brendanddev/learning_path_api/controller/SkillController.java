@@ -1,13 +1,18 @@
 package com.brendanddev.learning_path_api.controller;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.brendanddev.learning_path_api.model.Skill;
 import com.brendanddev.learning_path_api.service.SkillService;
@@ -56,5 +61,40 @@ public class SkillController {
         return skill.map(s -> ResponseEntity.ok().body(s))
                     .orElse(ResponseEntity.notFound().build());
     }
+
+    /**
+     * Creates a new skill in the database
+     * 
+     * @param skill The Skill entity to be created
+     * @return ResponseEntity containing the created Skill entity with HTTP 201 Created status
+     */
+    @PostMapping
+    public ResponseEntity<Skill> createSkill(@RequestBody Skill skill) {
+        Skill createdSkill = skillService.createSkill(skill);
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+            .path("/{id}")
+            .buildAndExpand(createdSkill.getId())
+            .toUri();
+        return ResponseEntity.created(location).body(createdSkill);
+    }
+
+    /**
+     * Updates an existing skill in the database
+     * 
+     * @param id The id of the skill to update
+     * @param updatedSkill The Skill entity with updated information
+     * @return ResponseEntity containing the updated Skill entity with HTTP 200 OK status,
+     *         or HTTP 404 Not Found if the skill with the given id does not exist
+     */
+    @PutMapping("/{id}")
+    public ResponseEntity<Skill> updateSkill(@PathVariable Long id, @RequestBody Skill updatedSkill) {
+        try {
+            Skill skill = skillService.updateSkill(id, updatedSkill);
+            return ResponseEntity.ok(skill);
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
     
 }
