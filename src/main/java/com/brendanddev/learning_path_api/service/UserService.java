@@ -2,11 +2,12 @@ package com.brendanddev.learning_path_api.service;
 
 import java.util.List;
 import java.util.Optional;
-
-import org.springframework.stereotype.Service;
+import com.brendanddev.learning_path_api.model.Skill;
 import com.brendanddev.learning_path_api.model.User;
 import com.brendanddev.learning_path_api.repository.SkillRepository;
 import com.brendanddev.learning_path_api.repository.UserRepository;
+import org.springframework.stereotype.Service;
+import jakarta.transaction.Transactional;
 
 
 /**
@@ -33,6 +34,8 @@ public class UserService {
         this.userRepository = userRepository;
         this.skillRepository = skillRepository;
     }
+
+    // ===== CRUD Operations =====
 
     /**
      * Fetches all users from the database.
@@ -89,6 +92,55 @@ public class UserService {
                 return userRepository.save(user);
             })
             .orElseThrow(() -> new RuntimeException("User not found with id: " + id));
+    }
+
+
+    // ===== Skill Management =====
+
+    /**
+     * Adds a skill to an existing user.
+     * If the skill being added does not already exist, it will be created.
+     * 
+     * @param userId The id of the user to update
+     * @param skillName The name of the skill to add
+     * @return The updated User entity with the new skill added
+     * @throws RuntimeException if the user with the specified id does not exist
+     */
+    @Transactional
+    public User addSkillToUser(Long userId, String skillName) {
+        // Fetch the user by id
+        User user = userRepository.findById(userId)
+            .orElseThrow(() -> new RuntimeException("User not found with id: " + userId));
+        
+        // Fetch existing skill or create a new one if it doesn't exist
+        Skill skill = skillRepository.findById(skillName)
+            .orElseGet(() -> skillRepository.save(new Skill(skillName)));
+
+        user.getSkills().add(skill);
+        return userRepository.save(user);
+    }
+
+    /**
+     * Removes a skill from an existing user.
+     * 
+     * @param userId The id of the user to update
+     * @param skillName The name of the skill to remove
+     * @return The updated User entity with the skill removed
+     * @throws RuntimeException if the user with the specified id does not exist
+     */
+    @Transactional
+    public User removeSkillFromUser(Long userId, String skillName) {
+
+        // Fetch the user by id
+        User user = userRepository.findById(userId)
+            .orElseThrow(() -> new RuntimeException("User not found with id: " + userId));
+        
+        // Find the skill by name and remove it from the users skills
+        skillRepository.findById(skillName)
+            .ifPresent(skill -> user.getSkills().remove(skill));
+
+        // Save the updated user back to the repository
+        return userRepository.save(user);
     }
     
 }
