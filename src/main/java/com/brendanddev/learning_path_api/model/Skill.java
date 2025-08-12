@@ -1,7 +1,10 @@
 package com.brendanddev.learning_path_api.model;
 
 import java.util.Set;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 
@@ -12,9 +15,16 @@ import jakarta.persistence.ManyToMany;
 public class Skill {
 
     /**
-     * The name of the skill, which serves as the primary key.
+     * The unique identifier for the skill.
      */
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    /**
+     * The name of the skill, which must be unique and not null.
+     */
+    @Column(unique = true, nullable = false)
     private String name;
 
     /**
@@ -42,6 +52,14 @@ public class Skill {
     }
 
     // Getters and setters
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;

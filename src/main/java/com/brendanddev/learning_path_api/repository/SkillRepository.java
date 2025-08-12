@@ -12,6 +12,6 @@ import com.brendanddev.learning_path_api.model.Skill;
  * Spring Data JPA will automatically generate the implementation at runtime.
  */
 @Repository
-public interface SkillRepository extends JpaRepository<Skill, String> {
+public interface SkillRepository extends JpaRepository<Skill, Long> {
     // Additional query methods can be defined here if needed
 }
