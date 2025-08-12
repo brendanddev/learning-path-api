@@ -20,7 +20,7 @@ import com.brendanddev.learning_path_api.service.SkillService;
  */
 @RestController
 @RequestMapping("/api/skills")
-public class SkillControler {
+public class SkillController {
 
     // Service for handling skill related operations
     private final SkillService skillService;
@@ -30,7 +30,7 @@ public class SkillControler {
      * 
      * @param skillService Service for handling skill-related operations
      */
-    public SkillControler(SkillService skillService) {
+    public SkillController(SkillService skillService) {
         this.skillService = skillService;
     }
 
