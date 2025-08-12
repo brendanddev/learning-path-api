@@ -6,6 +6,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.Table;
 import jakarta.persistence.GenerationType;
 
 /**
@@ -13,6 +14,7 @@ import jakarta.persistence.GenerationType;
  * Each user has a unique id, name, email, and a set of skills they want to learn.
  */
 @Entity
+@Table(name = "users")
 public class User {
 
     /**

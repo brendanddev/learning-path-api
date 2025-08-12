@@ -65,7 +65,6 @@ public class UserController {
                    .orElse(ResponseEntity.notFound().build());
     }
 
-
     /**
      * Creates a new user in the database
      * 
