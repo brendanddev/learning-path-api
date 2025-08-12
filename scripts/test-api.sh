@@ -49,7 +49,7 @@ echo "Skill Name before sending: [$SKILL_NAME]"
 echo "Testing POST /users/$USER_ID/skills"
 ADD_SKILL_RESPONSE=$(curl -s -X POST "${BASE_URL}/users/$USER_ID/skills" \
     -H "Content-Type: application/json" \
-    -d "\"$SKILL_NAME\"")
+    -d "$SKILL_NAME")
 
 echo "Add Skill to User Response:"
 echo "$ADD_SKILL_RESPONSE"
