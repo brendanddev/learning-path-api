@@ -1,6 +1,7 @@
 package com.brendan.springdock.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -10,6 +11,9 @@ import com.brendan.springdock.repository.SkillRepository;
 
 /**
  * Defines the Service layer for Skill-related operations.
+ * 
+ * Acts as the intermediary between the Controller layer and the Repository layer,
+ * handling business logic and data manipulation for Skill entities.
  */
 @Service
 public class SkillService {
@@ -56,13 +60,41 @@ public class SkillService {
      * @param id The ID of the skill to retrieve
      * @return The Skill entity if found, otherwise null
      */
-    public Skill getSkillById(long id) { 
-        return skillRepository.findById(id).orElse(null);
+    public Optional<Skill> getSkillById(long id) { 
+        return skillRepository.findById(id);
     };
 
-    public Skill updateSkill() { };
+    /**
+     * Updates an existing Skill with the provided details.
+     * 
+     * @param name The new name of the skill
+     * @param description The new description of the skill
+     * @param category The new category of the skill
+     * @param difficulty The new difficulty level of the skill
+     * @return The updated Skill entity
+     */
+    public Skill updateSkill(long id, String name, String description, String category, Difficulty difficulty) {
+        Optional<Skill> existingSkill = skillRepository.findById(id);
+        if (existingSkill.isPresent()) {
+            Skill skill = existingSkill.get();
+            skill.setName(name);
+            skill.setDescription(description);
+            skill.setCategory(category);
+            skill.setDifficulty(difficulty);
+            return skillRepository.save(skill);
+        } else {
+            throw new RuntimeException("Skill not found with id: " + id);
+        }
+    };
 
-    public void deleteSkill(long id) { }
+    /**
+     * Deletes a Skill by its ID.
+     * 
+     * @param id The ID of the skill to delete
+     */
+    public void deleteSkill(long id) { 
+        skillRepository.deleteById(id);
+    }
 
 
 
