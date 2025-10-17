@@ -1,5 +1,7 @@
 package com.brendan.springdock.services;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.brendan.springdock.models.User;
@@ -37,6 +39,15 @@ public class UserService {
     public User createUser(String name, String email) {
         User user = new User(name, email);
         return userRepository.save(user);
+    }
+
+    /**
+     * Retrieves all Users from the database.
+     * 
+     * @return A list of all User entities
+     */
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
     }
     
 }
