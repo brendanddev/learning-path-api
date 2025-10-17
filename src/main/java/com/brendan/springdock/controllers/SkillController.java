@@ -50,13 +50,28 @@ public class SkillController {
         return ResponseEntity.ok(skills);
     }
 
+    /**
+     * Retrieves a Skill by its ID.
+     * 
+     * HTTP GET /skill/{id}
+     * Returns the Skill entity with the specified ID.
+     * If found, the response contains HTTP 200 (OK) and the Skill in JSON format.
+     * If not found, the response contains HTTP 404 (Not Found).
+     * 
+     * Since the SkillService returns an Optional<T> representing a value that may or may not be present,
+     * we can use 'map(ResponseEntity::ok)' to transform the found Skill into a ResponseEntity with HTTP 200 OK,
+     * if it exists, or 'orElseGet(() -> ResponseEntity.notFound().build())' to return a 404 Not Found response 
+     * if it doesn't.
+     * 
+     * @param id The ID of the skill to retrieve
+     * @return ResponseEntity containing the Skill and HTTP status
+     */
     @GetMapping("/skill/{id}")
     public ResponseEntity<Skill> getSkillById(@PathVariable long id) {
-        return skillService.getSkillById(id);
-
+        return skillService.getSkillById(id)
+            .map(ResponseEntity::ok)
+            .orElseGet(() -> ResponseEntity.notFound().build());
     }
-
-
 
     /**
      * Creates a new Skill.
@@ -75,9 +90,13 @@ public class SkillController {
     }
 
     @PutMapping("/skill/id")
-    public ResponseEntity<Skill> updateSkill(@RequestBody Skill skill, long id) { }
+    public ResponseEntity<Skill> updateSkill(@RequestBody Skill skill, long id) {
+        skillService.updateSkill(id);
+    }
 
     @DeleteMapping("/skill/id")
-    public ResponseEntity<Void> deleteSkill(long id) { }
+    public ResponseEntity<Void> deleteSkill(long id) {
+        skillService.deleteSkill(id);
+    }
     
 }

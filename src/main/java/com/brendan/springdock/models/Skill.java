@@ -8,11 +8,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
-// Notes:
-// Represents an individual Skill in the system a User can have
-// Fields could include: id, name, description, difficulty, category, etc.
-// Relationship(s)? to User?
-
 /**
  * Represents an individual Skill in the system that a User can have.
  * 
