@@ -1,6 +1,7 @@
 package com.brendan.springdock.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -49,5 +50,20 @@ public class UserService {
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
+
+    /**
+     * Retrieves a User by its ID.
+     * 
+     * @param id The ID of the user to retrieve
+     * @return An Optional containing the User if found, or empty if not found
+     */
+    public Optional<User> getUserById(long id) {
+        return userRepository.findById(id);
+    }
+
+
+    public User updateUser(long id, String name, String email) { }
+
+    public void deleteUser(long id) { }
     
 }
