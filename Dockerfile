@@ -4,10 +4,8 @@
 # =======================================
 
 
-### note: jar was buuilt with name 'springdock.jar'
-
 # Use official OpenJDK runtime as base image
-FROM openjdk:17-jdk-slim
+FROM eclipse-temurin:21-jdk-jammy
 
 # Set working directory in the container
 WORKDIR /app
