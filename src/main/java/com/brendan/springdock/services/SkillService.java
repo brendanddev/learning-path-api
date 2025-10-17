@@ -41,9 +41,24 @@ public class SkillService {
         return skillRepository.save(skill);
     }
 
-    public List<Skill> getAllSkills() { };
+    /**
+     * Retrieves all Skills from the database.
+     * 
+     * @return A list of all Skill entities
+     */
+    public List<Skill> getAllSkills() { 
+        return skillRepository.findAll();
+    };
 
-    public Skill getSkillById(long id) { };
+    /**
+     * Retrieves a Skill by its ID.
+     * 
+     * @param id The ID of the skill to retrieve
+     * @return The Skill entity if found, otherwise null
+     */
+    public Skill getSkillById(long id) { 
+        return skillRepository.findById(id).orElse(null);
+    };
 
     public Skill updateSkill() { };
 
