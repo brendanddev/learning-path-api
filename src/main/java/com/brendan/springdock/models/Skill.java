@@ -71,7 +71,6 @@ public class Skill {
                "', difficulty=" + difficulty + ", category='" + category + "'}";
     }
 
-
     // Enum for difficulty levels
     public enum Difficulty {
         NOVICE,
@@ -80,6 +79,5 @@ public class Skill {
         ADVANCED,
         EXPERT
     }
-
 
 }

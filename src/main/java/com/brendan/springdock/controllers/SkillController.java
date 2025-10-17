@@ -4,8 +4,11 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -29,6 +32,9 @@ public class SkillController {
         this.skillService = skillService;
     }
 
+    // Create, get by id, update, delete
+
+
     /**
      * Retrieves all Skills from the system.
      * 
@@ -39,10 +45,18 @@ public class SkillController {
      * @return ResponseEntity containing the list of Skills and HTTP status
      */
     @GetMapping("/skills")
-    public ResponseEntity<java.util.List<Skill>> getAllSkills() {
+    public ResponseEntity<List<Skill>> getAllSkills() {
         List<Skill> skills = skillService.getAllSkills();
         return ResponseEntity.ok(skills);
     }
+
+    @GetMapping("/skill/{id}")
+    public ResponseEntity<Skill> getSkillById(@PathVariable long id) {
+        return skillService.getSkillById(id);
+
+    }
+
+
 
     /**
      * Creates a new Skill.
@@ -59,5 +73,11 @@ public class SkillController {
         Skill newSkill = skillService.createSkill(skill.getName(), skill.getDescription(), skill.getCategory(), skill.getDifficulty());
         return ResponseEntity.status(HttpStatus.CREATED).body(newSkill);
     }
+
+    @PutMapping("/skill/id")
+    public ResponseEntity<Skill> updateSkill(@RequestBody Skill skill, long id) { }
+
+    @DeleteMapping("/skill/id")
+    public ResponseEntity<Void> deleteSkill(long id) { }
     
 }
