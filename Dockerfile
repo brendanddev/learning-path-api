@@ -3,16 +3,21 @@
 # Dockerfile for SpringDock Application
 # =======================================
 
+
+### note: jar was buuilt with name 'springdock.jar'
+
 # Use official OpenJDK runtime as base image
 FROM openjdk:17-jdk-slim
 
 # Set working directory in the container
 WORKDIR /app
 
-COPY source dest
+# Copy the built JAR into the container
+# Renames the jar for simplicity
+COPY target/springdock-0.0.1-SNAPSHOT.jar app.jar
 
 # Expose the port the app runs on
 EXPOSE 8080
 
 # Command to run the application
-ENTRYPOINT [ "java", "-jar", "springdock.jar" ]
+ENTRYPOINT [ "java", "-jar", "app.jar" ]
