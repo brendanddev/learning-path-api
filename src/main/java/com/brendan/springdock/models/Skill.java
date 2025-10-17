@@ -49,6 +49,28 @@ public class Skill {
         this.difficulty = difficulty;
     }
 
+    // Getters and Setters
+    public long getId() { return id; }
+    public void setId(long id) { this.id = id; }
+
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+
+    public String getDescription() { return description; }
+    public void setDescription(String description) { this.description = description; }
+
+    public String getCategory() { return category; }
+    public void setCategory(String category) { this.category = category; }
+
+    public Difficulty getDifficulty() { return difficulty; }
+    public void setDifficulty(Difficulty difficulty) { this.difficulty = difficulty; }
+
+    @Override
+    public String toString() {
+        return "Skill{id=" + id + ", name='" + name + "', description='" + description + 
+               "', difficulty=" + difficulty + ", category='" + category + "'}";
+    }
+
 
     // Enum for difficulty levels
     public enum Difficulty {
