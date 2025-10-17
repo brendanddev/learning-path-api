@@ -1,73 +1,33 @@
+HELP.md
+target/
+.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
 
-# Environment variables
-.env
-
-# Spring Boot build info
-/build/
-
-# Compiled class files
-*.class
-
-# Log files
-*.log
-
-# BlueJ files
-*.ctxt
-
-# Mobile Tools for Java (J2ME)
-.mtj.tmp/
-
-# Package Files
-*.jar
-*.war
-*.ear
-
-# Maven target directory
-/target/
-
-# IntelliJ IDEA files
-/.idea/
-/*.iml
-/out/
-
-# VS Code files
-.vscode/
-
-# Eclipse files
-.project
+### STS ###
+.apt_generated
 .classpath
-.settings/
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
 
-# NetBeans files
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
 /nbproject/private/
 /nbbuild/
 /dist/
 /nbdist/
 /.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
 
-# OS generated files
-.DS_Store
-Thumbs.db
-
-# Spring Boot specific
-spring.log
-
-# Lombok generated files 
-/delombok/
-
-# Temporary files
-tmp/
-temp/
-
-# Logs
-logs/
-
-# Others
-*.swp
-*.swo
-
-# Dont ignore Maven Wrapper files
-!mvnw
-!mvnw.cmd
-!.mvn/wrapper/maven-wrapper.properties
-!.mvn/wrapper/maven-wrapper.jar
+### VS Code ###
+.vscode/
