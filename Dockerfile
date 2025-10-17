@@ -3,12 +3,16 @@
 # Dockerfile for SpringDock Application
 # =======================================
 
-FROM baseImage
+# Use official OpenJDK runtime as base image
+FROM openjdk:17-jdk-slim
 
-WORKDIR /the/workdir/path
+# Set working directory in the container
+WORKDIR /app
 
 COPY source dest
 
-EXPOSE port
+# Expose the port the app runs on
+EXPOSE 8080
 
-ENTRYPOINT [ "executable" ]
+# Command to run the application
+ENTRYPOINT [ "java", "-jar", "springdock.jar" ]
