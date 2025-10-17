@@ -89,14 +89,37 @@ public class SkillController {
         return ResponseEntity.status(HttpStatus.CREATED).body(newSkill);
     }
 
-    @PutMapping("/skill/id")
-    public ResponseEntity<Skill> updateSkill(@RequestBody Skill skill, long id) {
-        skillService.updateSkill(id);
+    /**
+     * Updates an existing Skill.
+     * 
+     * HTTP PUT /skill/{id}
+     * Accepts a JSON payload with updated 'name', 'description', 'category', and 'difficulty' fields.
+     * Returns the updated Skill with a HTTP 200 status (OK).
+     * 
+     * @param id The ID of the skill to update
+     * @param skill The Skill object parsed from the request body
+     * @return ResponseEntity containing the updated Skill and HTTP status
+     */
+    @PutMapping("/skill/{id}")
+    public ResponseEntity<Skill> updateSkill(@PathVariable long id, @RequestBody Skill skill) {
+        Skill updatedSkill = skillService.updateSkill(id, skill.getName(), skill.getDescription(), skill.getCategory(), skill.getDifficulty());
+        return ResponseEntity.ok(updatedSkill);
     }
 
-    @DeleteMapping("/skill/id")
-    public ResponseEntity<Void> deleteSkill(long id) {
+    /**
+     * Deletes a Skill by its ID.
+     * 
+     * HTTP DELETE /skill/{id}
+     * Deletes the Skill entity with the specified ID.
+     * Returns HTTP 204 (No Content) upon successful deletion.
+     * 
+     * @param id The ID of the skill to delete
+     * @return ResponseEntity with HTTP status
+     */
+    @DeleteMapping("/skill/{id}")
+    public ResponseEntity<Void> deleteSkill(@PathVariable long id) {
         skillService.deleteSkill(id);
+        return ResponseEntity.noContent().build();
     }
     
 }
