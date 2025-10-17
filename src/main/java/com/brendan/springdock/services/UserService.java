@@ -61,9 +61,32 @@ public class UserService {
         return userRepository.findById(id);
     }
 
+    /**
+     * Updates an existing User with the provided details.
+     * 
+     * @param id The ID of the user to update
+     * @param updatedUser The User object containing updated details
+     * @return The updated User entity
+     */
+    public User updateUser(long id, User updatedUser) { 
+        Optional<User> existingUser = userRepository.findById(id);
+        if (existingUser.isPresent()) {
+            User user = existingUser.get();
+            user.setName(updatedUser.getName());
+            user.setEmail(updatedUser.getEmail());
+            return userRepository.save(user);
+        } else {
+            throw new RuntimeException("User not found with id: " + id);
+        }
+    }
 
-    public User updateUser(long id, String name, String email) { }
-
-    public void deleteUser(long id) { }
+    /**
+     * Deletes a User by its ID.
+     * 
+     * @param id The ID of the user to delete
+     */
+    public void deleteUser(long id) { 
+        userRepository.deleteById(id);
+    }
     
 }
