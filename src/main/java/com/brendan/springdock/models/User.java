@@ -1,5 +1,6 @@
 package com.brendan.springdock.models;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import jakarta.persistence.Entity;
@@ -65,6 +66,17 @@ public class User {
     @Override
     public String toString() {
         return "User{id=" + id + ", name='" + name + "', email='" + email + "'}";
+    }
+
+    // Helpers
+
+    public void addSkill(Skill skill) {
+        if (this.skills == null) this.skills = new HashSet<>();
+        this.skills.add(skill);
+    }
+
+    public void removeSkill(Skill skill) {
+        if (this.skills != null) this.skills.remove(skill);
     }
 
 }
