@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -90,11 +91,24 @@ public class UserController {
      */
     @PutMapping("/user/{id}")
     public ResponseEntity<User> updateUser(@PathVariable long id, @RequestBody User user) {
-        User updatedUser = userService.updateUser(user.getName(), user.getEmail());
+        User updatedUser = userService.updateUser(id, user);
         return ResponseEntity.ok(updatedUser);
-
     }
 
-
+    /**
+     * Deletes a User by its ID.
+     * 
+     * HTTP DELETE /user/{id}
+     * Deletes the User entity with the specified ID.
+     * If deletion is successful, the response contains HTTP 204 (No Content).
+     * 
+     * @param id The ID of the User to delete
+     * @return ResponseEntity with HTTP status
+     */
+    @DeleteMapping("/user/{id}")
+    public ResponseEntity<Void> deleteUser(@PathVariable long id) {
+        userService.deleteUser(id);
+        return ResponseEntity.noContent().build();
+    }
     
 }
