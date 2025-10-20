@@ -5,7 +5,9 @@ import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -26,6 +28,40 @@ public class UserController {
     }
 
     /**
+     * Retrieves all Users from the system.
+     * 
+     * HTTP GET /users
+     * Returns a list of all User entities stored in the database.
+     * The response contains HTTP 200 (OK) and the list of users in JSON format.
+     * 
+     * @return ResponseEntity containing the list of Users and HTTP status
+     */
+    @GetMapping("/users")
+    public ResponseEntity<List<User>> getAllUsers() {
+        List<User> users = userService.getAllUsers();
+        return ResponseEntity.ok(users);
+    }
+
+    /**
+     * Retrieves a User by its ID.
+     * 
+     * HTTP GET /user/{id}
+     * Returns the User entity with the specified ID.
+     * If found, the response contains HTTP 200 (OK) and the User in JSON format.
+     * If not found, the response contains HTTP 404 (Not Found).
+     * 
+     * @param id The ID of the User to retrieve
+     * @return ResponseEntity containing the User and HTTP status
+     */
+    @GetMapping("/user/{id}")
+    public ResponseEntity<User> getUserById(@PathVariable long id) {
+        return userService.getUserById(id)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+
+    /**
      * Creates a new User.
      * 
      * HTTP POST /user
@@ -42,18 +78,21 @@ public class UserController {
     }
 
     /**
-     * Retrieves all Users from the system.
+     * Updates an existing User.
      * 
-     * HTTP GET /users
-     * Returns a list of all User entities stored in the database.
-     * The response contains HTTP 200 (OK) and the list of users in JSON format.
+     * HTTP PUT /user/{id}
+     * Accepts a JSON payload with 'name' and 'email' fields.
+     * Returns the updated User with a HTTP 200 status (OK).
      * 
-     * @return ResponseEntity containing the list of Users and HTTP status
+     * @param id The ID of the User to update
+     * @param user The User object parsed from the request body
+     * @return ResponseEntity containing the updated User and HTTP status
      */
-    @GetMapping("/users")
-    public ResponseEntity<List<User>> getAllUsers() {
-        List<User> users = userService.getAllUsers();
-        return ResponseEntity.ok(users);
+    @PutMapping("/user/{id}")
+    public ResponseEntity<User> updateUser(@PathVariable long id, @RequestBody User user) {
+        User updatedUser = userService.updateUser(user.getName(), user.getEmail());
+        return ResponseEntity.ok(updatedUser);
+
     }
 
 

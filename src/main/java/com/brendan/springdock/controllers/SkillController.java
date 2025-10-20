@@ -32,9 +32,6 @@ public class SkillController {
         this.skillService = skillService;
     }
 
-    // Create, get by id, update, delete
-
-
     /**
      * Retrieves all Skills from the system.
      * 
