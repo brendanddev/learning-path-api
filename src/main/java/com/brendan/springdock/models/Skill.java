@@ -1,11 +1,14 @@
 package com.brendan.springdock.models;
 
+import java.util.Set;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 
 /**
@@ -31,6 +34,10 @@ public class Skill {
     // Difficulty level of the skill
     @Enumerated(EnumType.STRING)
     private Difficulty difficulty;
+
+    // Set of Users associated with the Skill
+    @ManyToMany(mappedBy = "skills")
+    private Set<User> users;
 
 
     // Required no-arg constructor
@@ -59,6 +66,9 @@ public class Skill {
 
     public Difficulty getDifficulty() { return difficulty; }
     public void setDifficulty(Difficulty difficulty) { this.difficulty = difficulty; }
+
+    public Set<User> getUsers() { return users; }
+    public void setUsers(Set<User> users) { this.users = users; }
 
     @Override
     public String toString() {
