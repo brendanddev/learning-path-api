@@ -1,7 +1,6 @@
 package com.brendan.springdock.services;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -52,17 +51,19 @@ public class SkillService {
      */
     public List<Skill> getAllSkills() { 
         return skillRepository.findAll();
-    };
+    }
 
     /**
      * Retrieves a Skill by its ID.
      * 
      * @param id The ID of the skill to retrieve
-     * @return The Skill entity if found, otherwise null
+     * @return The Skill entity if found, otherwise throws RuntimeException
+     * @throws RuntimeException if the Skill is not found
      */
-    public Optional<Skill> getSkillById(long id) { 
-        return skillRepository.findById(id);
-    };
+    public Skill getSkillById(long id) { 
+        return skillRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Skill not found with id: " + id));
+    }
 
     /**
      * Updates an existing Skill with the provided details.
@@ -74,18 +75,13 @@ public class SkillService {
      * @return The updated Skill entity
      */
     public Skill updateSkill(long id, String name, String description, String category, Difficulty difficulty) {
-        Optional<Skill> existingSkill = skillRepository.findById(id);
-        if (existingSkill.isPresent()) {
-            Skill skill = existingSkill.get();
-            skill.setName(name);
-            skill.setDescription(description);
-            skill.setCategory(category);
-            skill.setDifficulty(difficulty);
-            return skillRepository.save(skill);
-        } else {
-            throw new RuntimeException("Skill not found with id: " + id);
-        }
-    };
+        Skill skill = getSkillById(id);
+        skill.setName(name);
+        skill.setDescription(description);
+        skill.setCategory(category);
+        skill.setDifficulty(difficulty);
+        return skillRepository.save(skill);
+    }
 
     /**
      * Deletes a Skill by its ID.
@@ -93,11 +89,9 @@ public class SkillService {
      * @param id The ID of the skill to delete
      */
     public void deleteSkill(long id) { 
-        skillRepository.deleteById(id);
+        Skill skill = getSkillById(id);
+        skillRepository.delete(skill);
     }
-
-
-
 
 
 }
