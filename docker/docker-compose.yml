@@ -29,6 +29,11 @@ services:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/${DB_NAME}
       SPRING_DATASOURCE_USERNAME: ${DB_USER}
       SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
+    
+    # Mounts a Docker-managed volume for persistent Postgres data
+    # <host_side_volume>:<container_path>
+    volumes:
+      - springdock-pg-vol:/var/lib/postgresql/data
 
 
 
@@ -47,5 +52,9 @@ services:
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_DB: ${DB_NAME}
 
+
+# Defines Docker-managed volumes that can be used by services
+volumes:
+  springdock-pg-vol:
 
   
