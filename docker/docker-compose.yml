@@ -5,27 +5,43 @@
 
 version: '3.9'
 
-# 
+# Defines the containers (services) that Docker Compose will manage
 services:
+
 
   # Service named 'springdock' - Defines the container the app will run in
   springdock:
+    
+    # Instructs Docker to build the image from the current dir
+    build: .
+    
+    # Binds the host machine to the exposed port
+    ports:
+      - "8080:8080"
+    
+    # Sets envrionment variables inside container
+    # So the app can read the variables and use to connect to database
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/${DB_NAME}
+      SPRING_DATASOURCE_USERNAME: ${DB_USER}
+      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
+
+
 
   # Service named 'postgres' - Defines the container the database will run in
   postgres: 
+    
     # Specifies the Docker image to use for this service
     image: postgres:14-alpine
+    
     ports:
       - 5432:5432
-    volumes:
-      - 
+    
+    # Sets envrionment variables inside container
     environment:
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_DB: ${DB_NAME}
-
-
-
 
 
   
