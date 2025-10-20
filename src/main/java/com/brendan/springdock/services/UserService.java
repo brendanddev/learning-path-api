@@ -1,7 +1,6 @@
 package com.brendan.springdock.services;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -100,11 +99,8 @@ public class UserService {
      * @param skillId The ID of the Skill to be added to the User
      */
     public void addSkillToUser(long userId, long skillId) {
-        User user = userRepository.findById(userId)
-            .orElseThrow(() -> new RuntimeException("User not found with id: " + userId));
-        
-        Skill skill = skillService.getSkillById(skillId)
-            .orElseThrow(() -> new RuntimeException("Skill not found with id: " + skillId));
+        User user = getUserById(userId);
+        Skill skill = skillService.getSkillById(skillId);
         
         user.addSkill(skill);
         userRepository.save(user);
@@ -117,11 +113,8 @@ public class UserService {
      * @param skillId The ID of the Skill to be removed from the User
      */
     public void removeSkillFromUser(long userId, long skillId) {
-        User user = userRepository.findById(userId)
-            .orElseThrow(() -> new RuntimeException("User not found with id: " + userId));
-        
-        Skill skill = skillService.getSkillById(skillId)
-            .orElseThrow(() -> new RuntimeException("Skill not found with id: " + skillId));
+        User user = getUserById(userId);
+        Skill skill = skillService.getSkillById(skillId);
         
         user.removeSkill(skill);
         userRepository.save(user);
