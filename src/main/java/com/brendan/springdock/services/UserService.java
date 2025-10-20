@@ -61,10 +61,12 @@ public class UserService {
      * Retrieves a User by its ID.
      * 
      * @param id The ID of the user to retrieve
-     * @return An Optional containing the User if found, or empty if not found
+     * @return The User entity if found, otherwise throws RuntimeException
+     * @throws RuntimeException if the User is not found
      */
-    public Optional<User> getUserById(long id) {
-        return userRepository.findById(id);
+    public User getUserById(long id) {
+        return userRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("User not found with id: " + id));
     }
 
     /**
@@ -75,15 +77,10 @@ public class UserService {
      * @return The updated User entity
      */
     public User updateUser(long id, User updatedUser) { 
-        Optional<User> existingUser = userRepository.findById(id);
-        if (existingUser.isPresent()) {
-            User user = existingUser.get();
-            user.setName(updatedUser.getName());
-            user.setEmail(updatedUser.getEmail());
-            return userRepository.save(user);
-        } else {
-            throw new RuntimeException("User not found with id: " + id);
-        }
+        User user = getUserById(id);
+        user.setName(updatedUser.getName());
+        user.setEmail(updatedUser.getEmail());
+        return userRepository.save(user);
     }
 
     /**
@@ -91,8 +88,9 @@ public class UserService {
      * 
      * @param id The ID of the user to delete
      */
-    public void deleteUser(long id) { 
-        userRepository.deleteById(id);
+    public void deleteUser(long id) {
+        User user = getUserById(id);
+        userRepository.delete(user);
     }
 
     /**
@@ -102,15 +100,14 @@ public class UserService {
      * @param skillId The ID of the Skill to be added to the User
      */
     public void addSkillToUser(long userId, long skillId) {
-        Optional<User> existingUser = userRepository.findById(userId);
-        Optional<Skill> existingSkill = skillService.getSkillById(skillId);
-
-        if (existingUser.isPresent() && existingSkill.isPresent()) {
-            User user = existingUser.get();
-            Skill skill = existingSkill.get();
-            user.addSkill(skill);
-            userRepository.save(user);
-        }
+        User user = userRepository.findById(userId)
+            .orElseThrow(() -> new RuntimeException("User not found with id: " + userId));
+        
+        Skill skill = skillService.getSkillById(skillId)
+            .orElseThrow(() -> new RuntimeException("Skill not found with id: " + skillId));
+        
+        user.addSkill(skill);
+        userRepository.save(user);
     }
 
     /**
@@ -120,16 +117,14 @@ public class UserService {
      * @param skillId The ID of the Skill to be removed from the User
      */
     public void removeSkillFromUser(long userId, long skillId) {
-        Optional<User> existingUser = userRepository.findById(userId);
-        Optional<Skill> existingSkill = skillService.getSkillById(skillId);
-
-        if (existingUser.isPresent() && existingSkill.isPresent()) {
-            User user = existingUser.get();
-            Skill skill = existingSkill.get();
-            user.removeSkill(skill);
-            userRepository.save(user);
-
-        }
+        User user = userRepository.findById(userId)
+            .orElseThrow(() -> new RuntimeException("User not found with id: " + userId));
+        
+        Skill skill = skillService.getSkillById(skillId)
+            .orElseThrow(() -> new RuntimeException("Skill not found with id: " + skillId));
+        
+        user.removeSkill(skill);
+        userRepository.save(user);
     }
     
 }
