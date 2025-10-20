@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import com.brendan.springdock.models.Skill;
 import com.brendan.springdock.models.User;
 import com.brendan.springdock.repository.UserRepository;
 
@@ -20,14 +21,19 @@ public class UserService {
     // Repository for performing database operations on User entities
     private final UserRepository userRepository;
 
+    // Service for performing operations related to Skills
+    // Injected here so UserService can coordinate actions involving both Users and their associated Skills
+    private final SkillService skillService;
+
     /**
      * Constructor-based dependency injection for the UserRepository.
      * Spring automatically injects the repository instance when creating this service.
      * 
      * @param userRepository the UserRepository to be injected
      */
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, SkillService skillService) {
         this.userRepository = userRepository;
+        this.skillService = skillService;
     }
 
     /**
@@ -87,6 +93,43 @@ public class UserService {
      */
     public void deleteUser(long id) { 
         userRepository.deleteById(id);
+    }
+
+    /**
+     * Adds a Skill to a User's set of Skills.
+     * 
+     * @param userId The ID of the User to whom the Skill will be added
+     * @param skillId The ID of the Skill to be added to the User
+     */
+    public void addSkillToUser(long userId, long skillId) {
+        Optional<User> existingUser = userRepository.findById(userId);
+        Optional<Skill> existingSkill = skillService.getSkillById(skillId);
+
+        if (existingUser.isPresent() && existingSkill.isPresent()) {
+            User user = existingUser.get();
+            Skill skill = existingSkill.get();
+            user.addSkill(skill);
+            userRepository.save(user);
+        }
+    }
+
+    /**
+     * Removes a Skill from a User's set of Skills.
+     * 
+     * @param userId The ID of the User from whom the Skill will be removed
+     * @param skillId The ID of the Skill to be removed from the User
+     */
+    public void removeSkillFromUser(long userId, long skillId) {
+        Optional<User> existingUser = userRepository.findById(userId);
+        Optional<Skill> existingSkill = skillService.getSkillById(skillId);
+
+        if (existingUser.isPresent() && existingSkill.isPresent()) {
+            User user = existingUser.get();
+            Skill skill = existingSkill.get();
+            user.removeSkill(skill);
+            userRepository.save(user);
+
+        }
     }
     
 }
