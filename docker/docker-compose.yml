@@ -12,8 +12,12 @@ services:
   # Service named 'springdock' - Defines the container the app will run in
   springdock:
     
-    # Instructs Docker to build the image from the current dir
-    build: .
+    # Instructs Docker Compose to build the the SpringDock image
+    # Specifies the project root '..' as the context, and instructs to use the Dockerfile
+    # located at 'docker/Dockerfile'
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
     
     # Binds the host machine to the exposed port
     ports:
