@@ -65,9 +65,12 @@ public class SkillController {
      */
     @GetMapping("/skill/{id}")
     public ResponseEntity<Skill> getSkillById(@PathVariable long id) {
-        return skillService.getSkillById(id)
-            .map(ResponseEntity::ok)
-            .orElseGet(() -> ResponseEntity.notFound().build());
+        try {
+            Skill skill = skillService.getSkillById(id);
+            return ResponseEntity.ok(skill);
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     /**
