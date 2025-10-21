@@ -12,8 +12,11 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.brendan.springdock.dto.SkillDTO;
 import com.brendan.springdock.models.Skill;
 import com.brendan.springdock.services.SkillService;
+
+import jakarta.validation.Valid;
 
 /**
  * Defines the REST Controller for managing Skill entities.
@@ -71,13 +74,18 @@ public class SkillController {
      * Accepts a JSON payload with 'name', 'description', 'category', and 'difficulty' fields.
      * Returns the created Skill with a HTTP 201 status (Created).
      * 
-     * @param skill The Skill object parsed from the request body
+     * @param skillDTO The SkillDTO object parsed from the request body
      * @return ResponseEntity containing the created Skill and HTTP status
      */
     @PostMapping("/skill")
-    public ResponseEntity<Skill> createSkill(@RequestBody Skill skill) {
-        Skill newSkill = skillService.createSkill(skill.getName(), skill.getDescription(), skill.getCategory(), skill.getDifficulty());
-        return ResponseEntity.status(HttpStatus.CREATED).body(newSkill);
+    public ResponseEntity<Skill> createSkill(@RequestBody @Valid SkillDTO skillDTO) {
+        Skill skill = skillService.createSkill(
+            skillDTO.getName(),
+            skillDTO.getDescription(),
+            skillDTO.getCategory(),
+            skillDTO.getDifficulty()
+        );
+        return ResponseEntity.status(HttpStatus.CREATED).body(skill);
     }
 
     /**
@@ -88,12 +96,18 @@ public class SkillController {
      * Returns the updated Skill with a HTTP 200 status (OK).
      * 
      * @param id The ID of the skill to update
-     * @param skill The Skill object parsed from the request body
+     * @param skillDTO The SkillDTO object parsed from the request body
      * @return ResponseEntity containing the updated Skill and HTTP status
      */
     @PutMapping("/skill/{id}")
-    public ResponseEntity<Skill> updateSkill(@PathVariable long id, @RequestBody Skill skill) {
-        Skill updatedSkill = skillService.updateSkill(id, skill.getName(), skill.getDescription(), skill.getCategory(), skill.getDifficulty());
+    public ResponseEntity<Skill> updateSkill(@PathVariable long id, @RequestBody @Valid SkillDTO skillDTO) {
+        Skill updatedSkill = skillService.updateSkill(
+            id,
+            skillDTO.getName(),
+            skillDTO.getDescription(),
+            skillDTO.getCategory(),
+            skillDTO.getDifficulty()
+        );
         return ResponseEntity.ok(updatedSkill);
     }
 

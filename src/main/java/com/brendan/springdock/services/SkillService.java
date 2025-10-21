@@ -43,11 +43,6 @@ public class SkillService {
      * @throws BadRequestException if any of the provided fields are invalid or missing
      */
     public Skill createSkill(String name, String description, String category, Difficulty difficulty) {
-        if (name == null || name.isBlank()) throw new BadRequestException("Skill name cannot be empty.");
-        if (description == null || description.isBlank()) throw new BadRequestException("Skill description cannot be empty.");
-        if (category == null || category.isBlank()) throw new BadRequestException("Skill category cannot be empty.");
-        if (difficulty == null) throw new BadRequestException("Skill difficulty cannot be null.");
-
         Skill skill = new Skill(name, description, category, difficulty);
         return skillRepository.save(skill);
     }
@@ -94,11 +89,6 @@ public class SkillService {
      * @throws BadRequestException if any of the provided fields are invalid or missing
      */
     public Skill updateSkill(long id, String name, String description, String category, Difficulty difficulty) {
-        if (name == null || name.isBlank()) throw new BadRequestException("Skill name cannot be empty.");
-        if (description == null || description.isBlank()) throw new BadRequestException("Skill description cannot be empty.");
-        if (category == null || category.isBlank()) throw new BadRequestException("Skill category cannot be empty.");
-        if (difficulty == null) throw new BadRequestException("Skill difficulty cannot be null.");
-        
         Skill skill = getSkillById(id);
         skill.setName(name);
         skill.setDescription(description);
