@@ -1,7 +1,7 @@
 package com.brendan.springdock.exceptions;
 
 /**
- * Defines a custom exception to bt thrown when a requested resource is not found.
+ * Defines a custom exception to be thrown when a requested resource is not found.
  * 
  * Specifically used when a User or Skill entity cannot be found.
  */
