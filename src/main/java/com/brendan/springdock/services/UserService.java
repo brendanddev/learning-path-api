@@ -137,6 +137,22 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public void removeSkillsFromUser(long userId, List<Long> skillIds) {}
+    /**
+     * Removes multiple Skills from a User's set of Skills.
+     * 
+     * @param userId The ID of the User from whom the Skills will be removed
+     * @param skillIds The list of Skill IDs to be removed from the User
+     */
+    public void removeSkillsFromUser(long userId, List<Long> skillIds) {
+        User user = getUserById(userId);
+        List<Skill> skills = skillService.getSkillsByIds(skillIds);
+
+        for (Skill skill : skills) {
+            user.removeSkill(skill);
+        }
+
+        userRepository.save(user);
+    }
+    
     
 }
