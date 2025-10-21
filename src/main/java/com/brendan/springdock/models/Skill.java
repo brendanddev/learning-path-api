@@ -88,4 +88,21 @@ public class Skill {
         EXPERT
     }
 
+    /**
+     * Checks if two Skill objects are considered equal based on their IDs.
+     * 
+     * @param o The other object to compare with
+     * @return true if both Skill objects have the same non-zero ID, false otherwise
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Skill)) return false;
+        Skill skill = (Skill) o;
+        return id != 0 && id == skill.id;
+    }
+
+    @Override
+    public int hashCode() {}
+
 }
