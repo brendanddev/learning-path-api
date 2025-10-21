@@ -34,5 +34,23 @@ public class GlobalExceptionHandler {
         );
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(body);
     }
+
+    /**
+     * Handles a BadRequestException thrown when the client sends invalid data or parameters.
+     * 
+     * Converts the exception into a HTTP 400 Bad Request response with a JSON body containing the error 
+     * type and descriptive message.
+     * 
+     * @param ex The BadRequestException instance that was thrown 
+     * @return ResponseEntity with HTTP 400 status and error details in the body
+     */
+    @ExceptionHandler(BadRequestException.class)
+    public ResponseEntity<Map<String, String>> handleBadRequest(BadRequestException ex) {
+        Map<String, String> body = Map.of(
+            "error", "Bad Request",
+            "message", ex.getMessage()
+        );
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(body);
+    }
     
 }
