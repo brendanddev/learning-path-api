@@ -66,6 +66,16 @@ public class SkillService {
     }
 
     /**
+     * Retrieves a list of Skills by their IDs.
+     * 
+     * @param ids The list of Skill IDs to retrieve
+     * @return A list of Skill entities
+     */
+    public List<Skill> getSkillsByIds(List<Long> ids) {
+        return skillRepository.findAllById(ids);
+    }
+
+    /**
      * Updates an existing Skill with the provided details.
      * 
      * @param name The new name of the skill
