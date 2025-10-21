@@ -52,5 +52,24 @@ public class GlobalExceptionHandler {
         );
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(body);
     }
+
+    /**
+     * Handles all other uncaught exceptions.
+     * 
+     * Converts the exception into a HTTP 500 Internal Server Error response with a JSON body containing
+     * error details.
+     * 
+     * @param ex The exception thrown by the service or controller
+     * @return ResponseEntity containing a map with keys "error" and "message",
+     *         and HTTP status 500 (Internal Server Error)
+     */
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<Map<String, String>> handleGeneric(Exception ex) {
+        Map<String, String> body = Map.of(
+            "error", "Internal Server Error",
+            "message", ex.getMessage()
+        );
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(body);
+    }
     
 }
