@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.brendan.springdock.exceptions.ResourceNotFoundException;
 import com.brendan.springdock.models.Skill;
 import com.brendan.springdock.models.User;
 import com.brendan.springdock.repository.UserRepository;
@@ -60,12 +61,12 @@ public class UserService {
      * Retrieves a User by its ID.
      * 
      * @param id The ID of the user to retrieve
-     * @return The User entity if found, otherwise throws RuntimeException
-     * @throws RuntimeException if the User is not found
+     * @return The User entity if found, otherwise throws ResourceNotFoundException
+     * @throws ResourceNotFoundException if the User is not found
      */
     public User getUserById(long id) {
         return userRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("User not found with id: " + id));
+            .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + id));
     }
 
     /**
