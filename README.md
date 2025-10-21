@@ -57,3 +57,30 @@ spring-dock/
 ```
 
 ---
+
+## Getting Started
+
+### Prerequisites
+- Java 17+
+- Maven
+- Docker & Docker Compose
+- PostgreSQL (or use the one defined in docker-compose)
+
+### Setup & Run
+1. Clone the repository:
+```bash
+git clone https://github.com/brendanddev/springdock.git
+cd springdock
+```
+
+2. Build the project with Maven:
+```bash
+./mvnw clean package
+```
+
+3. Start Docker containers (API + PostgreSQL):
+```bash
+docker-compose up --build
+```
+
+---
