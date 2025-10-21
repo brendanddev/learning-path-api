@@ -107,6 +107,23 @@ public class UserService {
     }
 
     /**
+     * Adds multiple Skills to a User's set of Skills.
+     * 
+     * @param userId The ID of the User to whom the Skills will be added
+     * @param skillIds The list of Skill IDs to be added to the User
+     */
+    public void addSkillsToUser(long userId, List<Long> skillIds) {
+        User user = getUserById(userId);
+        List<Skill> skills = skillService.getSkillsByIds(skillIds);
+
+        for (Skill skill : skills) {
+            user.addSkill(skill);
+        }
+
+        userRepository.save(user);
+    } 
+
+    /**
      * Removes a Skill from a User's set of Skills.
      * 
      * @param userId The ID of the User from whom the Skill will be removed
@@ -119,5 +136,7 @@ public class UserService {
         user.removeSkill(skill);
         userRepository.save(user);
     }
+
+    public void removeSkillsFromUser(long userId, List<Long> skillIds) {}
     
 }
