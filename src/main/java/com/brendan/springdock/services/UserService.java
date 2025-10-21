@@ -2,6 +2,7 @@ package com.brendan.springdock.services;
 
 import java.util.List;
 
+import com.brendan.springdock.exceptions.BadRequestException;
 import org.springframework.stereotype.Service;
 
 import com.brendan.springdock.exceptions.ResourceNotFoundException;
@@ -44,6 +45,9 @@ public class UserService {
      * @return The saved User entity
      */
     public User createUser(String name, String email) {
+        if (name == null || name.isBlank()) throw new BadRequestException("User name cannot be empty.");
+        if (email == null || email.isBlank()) throw new BadRequestException("User email cannot be empty.");
+        
         User user = new User(name, email);
         return userRepository.save(user);
     }
@@ -77,6 +81,9 @@ public class UserService {
      * @return The updated User entity
      */
     public User updateUser(long id, User updatedUser) { 
+        if (updatedUser.getName() == null || updatedUser.getName().isBlank()) throw new BadRequestException("User name cannot be empty.");
+        if (updatedUser.getEmail() == null || updatedUser.getEmail().isBlank()) throw new BadRequestException("User email cannot be empty.");
+        
         User user = getUserById(id);
         user.setName(updatedUser.getName());
         user.setEmail(updatedUser.getEmail());
