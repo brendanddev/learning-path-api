@@ -3,7 +3,6 @@
 # Docker Compose for SpringDock Application
 # ===========================================
 
-version: '3.9'
 
 # Defines the containers (services) that Docker Compose will manage
 services:
