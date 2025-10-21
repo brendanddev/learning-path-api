@@ -2,6 +2,8 @@ package com.brendan.springdock.models;
 
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -37,6 +39,7 @@ public class Skill {
 
     // Set of Users associated with the Skill
     @ManyToMany(mappedBy = "skills")
+    @JsonIgnore
     private Set<User> users;
 
 
