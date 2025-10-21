@@ -114,7 +114,17 @@ public class UserController {
         return ResponseEntity.noContent().build();
     }
 
-    // Add a Skill to a User
+    /**
+     * Adds Skills to a User's set of Skills.
+     * 
+     * HTTP PATCH /user/{id}/skills/add
+     * Accepts a JSON array of Skill IDs to add to the User.
+     * Returns the updated User with a HTTP 200 status (OK).
+     * 
+     * @param id The ID of the User to update
+     * @param skillIds The list of Skill IDs to add to the User
+     * @return ResponseEntity containing the updated User and HTTP status
+     */
     @PatchMapping("/user/{id}/skills/add")
     public ResponseEntity<User> addSkillsToUser(@PathVariable long id, @RequestBody List<Long> skillIds) {
         userService.addSkillsToUser(id, skillIds);
@@ -122,10 +132,23 @@ public class UserController {
         return ResponseEntity.ok(updatedUser);
     }
 
+    /**
+     * Removes Skills from a User's set of Skills.
+     * 
+     * HTTP PATCH /user/{id}/skills/remove
+     * Accepts a JSON array of Skill IDs to remove from the User.
+     * Returns the updated User with a HTTP 200 status (OK).
+     * 
+     * @param id The ID of the User to update
+     * @param skillIds The list of Skill IDs to remove from the User
+     * @return ResponseEntity containing the updated User and HTTP status
+     */
     @PatchMapping("/user/{id}/skills/remove")
-    public ResponseEntity<User> removeSkillsFromUser() { }
-
-
+    public ResponseEntity<User> removeSkillsFromUser(@PathVariable long id, @RequestBody List<Long> skillIds) {
+        userService.removeSkillsFromUser(id, skillIds);
+        User updatedUser = userService.getUserById(id);
+        return ResponseEntity.ok(updatedUser);
+    }
 
     
 }
