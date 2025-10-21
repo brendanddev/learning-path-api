@@ -3,6 +3,11 @@
 # Docker Compose for SpringDock Application
 # ===========================================
 
+# Instructions:
+# Build Jar             mvn clean package
+# Build Image           docker build -t spring-dock -f docker/Dockerfile .
+# Start Containers      docker compose up 
+
 
 # Defines the containers (services) that Docker Compose will manage
 services:
