@@ -55,22 +55,13 @@ public class SkillController {
      * If found, the response contains HTTP 200 (OK) and the Skill in JSON format.
      * If not found, the response contains HTTP 404 (Not Found).
      * 
-     * Since the SkillService returns an Optional<T> representing a value that may or may not be present,
-     * we can use 'map(ResponseEntity::ok)' to transform the found Skill into a ResponseEntity with HTTP 200 OK,
-     * if it exists, or 'orElseGet(() -> ResponseEntity.notFound().build())' to return a 404 Not Found response 
-     * if it doesn't.
-     * 
      * @param id The ID of the skill to retrieve
      * @return ResponseEntity containing the Skill and HTTP status
      */
     @GetMapping("/skill/{id}")
     public ResponseEntity<Skill> getSkillById(@PathVariable long id) {
-        try {
-            Skill skill = skillService.getSkillById(id);
-            return ResponseEntity.ok(skill);
-        } catch (RuntimeException e) {
-            return ResponseEntity.notFound().build();
-        }
+        Skill skill = skillService.getSkillById(id);
+        return ResponseEntity.ok(skill);
     }
 
     /**

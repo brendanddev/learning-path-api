@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.brendan.springdock.exceptions.ResourceNotFoundException;
 import com.brendan.springdock.models.Skill;
 import com.brendan.springdock.models.Skill.Difficulty;
 import com.brendan.springdock.repository.SkillRepository;
@@ -58,11 +59,11 @@ public class SkillService {
      * 
      * @param id The ID of the skill to retrieve
      * @return The Skill entity if found, otherwise throws RuntimeException
-     * @throws RuntimeException if the Skill is not found
+     * @throws ResourceNotFoundException if the Skill is not found
      */
     public Skill getSkillById(long id) { 
         return skillRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Skill not found with id: " + id));
+            .orElseThrow(() -> new ResourceNotFoundException("Skill not found with id: " + id));
     }
 
     /**
