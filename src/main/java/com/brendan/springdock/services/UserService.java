@@ -45,9 +45,6 @@ public class UserService {
      * @return The saved User entity
      */
     public User createUser(String name, String email) {
-        if (name == null || name.isBlank()) throw new BadRequestException("User name cannot be empty.");
-        if (email == null || email.isBlank()) throw new BadRequestException("User email cannot be empty.");
-        
         User user = new User(name, email);
         return userRepository.save(user);
     }
@@ -80,13 +77,10 @@ public class UserService {
      * @param updatedUser The User object containing updated details
      * @return The updated User entity
      */
-    public User updateUser(long id, User updatedUser) { 
-        if (updatedUser.getName() == null || updatedUser.getName().isBlank()) throw new BadRequestException("User name cannot be empty.");
-        if (updatedUser.getEmail() == null || updatedUser.getEmail().isBlank()) throw new BadRequestException("User email cannot be empty.");
-        
+    public User updateUser(long id, String name, String email) {
         User user = getUserById(id);
-        user.setName(updatedUser.getName());
-        user.setEmail(updatedUser.getEmail());
+        user.setName(name);
+        user.setEmail(email);
         return userRepository.save(user);
     }
 

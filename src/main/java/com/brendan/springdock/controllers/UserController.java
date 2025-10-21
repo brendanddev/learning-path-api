@@ -13,8 +13,11 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.brendan.springdock.dto.UserDTO;
 import com.brendan.springdock.models.User;
 import com.brendan.springdock.services.UserService;
+
+import jakarta.validation.Valid;
 
 /**
  * Defines the REST Controller for managing User entities.
@@ -68,12 +71,12 @@ public class UserController {
      * Accepts a JSON payload with 'name' and 'email' fields.
      * Returns the created User with a HTTP 201 status (Created).
      * 
-     * @param user The User object parsed from the request body
+     * @param userDTO The UserDTO object parsed from the request body
      * @return ResponseEntity containing the created User and HTTP status
      */
     @PostMapping("/user")
-    public ResponseEntity<User> createUser(@RequestBody User user) {
-        User newUser = userService.createUser(user.getName(), user.getEmail());
+    public ResponseEntity<User> createUser(@RequestBody @Valid UserDTO userDTO) {
+        User newUser = userService.createUser(userDTO.getName(), userDTO.getEmail());
         return ResponseEntity.status(HttpStatus.CREATED).body(newUser);
     }
 
@@ -85,12 +88,16 @@ public class UserController {
      * Returns the updated User with a HTTP 200 status (OK).
      * 
      * @param id The ID of the User to update
-     * @param user The User object parsed from the request body
+     * @param userDTO The UserDTO object parsed from the request body
      * @return ResponseEntity containing the updated User and HTTP status
      */
     @PutMapping("/user/{id}")
-    public ResponseEntity<User> updateUser(@PathVariable long id, @RequestBody User user) {
-        User updatedUser = userService.updateUser(id, user);
+    public ResponseEntity<User> updateUser(@PathVariable long id, @RequestBody @Valid UserDTO userDTO) {
+        User updatedUser = userService.updateUser(
+            id,
+            userDTO.getName(),
+            userDTO.getEmail()
+        );
         return ResponseEntity.ok(updatedUser);
     }
 
