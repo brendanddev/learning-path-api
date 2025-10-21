@@ -102,7 +102,14 @@ public class Skill {
         return id != 0 && id == skill.id;
     }
 
+    /**
+     * Generates a hash code for the Skill object based on its ID.
+     * 
+     * @return The hash code derived from the Skill's ID
+     */
     @Override
-    public int hashCode() {}
+    public int hashCode() {
+        return Long.hashCode(id);
+    }
 
 }
